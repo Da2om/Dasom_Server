@@ -1,0 +1,5 @@
+rootProject.name = 'Dasom_Server'
+
+include 'Dasom-api'
+include 'Dasom-core'
+include 'Dasom-infra'

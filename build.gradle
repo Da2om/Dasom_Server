@@ -1,0 +1,48 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '3.2.5'
+    id 'io.spring.dependency-management' version '1.1.4'
+}
+
+bootJar.enabled = false
+
+repositories {
+    mavenCentral()
+}
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+subprojects {
+    group = 'project'
+    version = '0.0.1-SNAPSHOT'
+    sourceCompatibility = '17'
+
+    apply plugin: 'java'
+    apply plugin: 'io.spring.dependency-management'
+    apply plugin: 'org.springframework.boot'
+
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        implementation 'org.projectlombok:lombok'
+        annotationProcessor 'org.projectlombok:lombok'
+
+        testImplementation 'org.springframework.boot:spring-boot-starter-test:2.6.4'
+        testImplementation 'org.assertj:assertj-core:3.22.0'
+        testImplementation 'org.mockito:mockito-core:3.8.0'
+    }
+
+    test {
+        useJUnitPlatform()
+    }
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
