@@ -15,4 +15,8 @@ public class MemberService {
     public Member getByEmail(String email){
         return memberRepository.findByEmail(email);
     }
+
+    public Member save(Member member){
+        return memberRepository.save(member);
+    }
 }
