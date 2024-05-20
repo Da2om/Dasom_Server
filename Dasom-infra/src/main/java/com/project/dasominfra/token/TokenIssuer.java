@@ -14,7 +14,7 @@ import java.util.Date;
 @Component
 @RequiredArgsConstructor
 @Slf4j
-public class IssueToken {
+public class TokenIssuer {
     private final TokenProperties tokenProperties;
 
     public Token issueToken(String email, final MemberRole role) {
