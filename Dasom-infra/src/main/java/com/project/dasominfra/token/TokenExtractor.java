@@ -41,4 +41,10 @@ public class TokenExtractor {
         return Jwts.parserBuilder().setSigningKey(tokenProperties.getSecretKey())
                 .build().parseClaimsJws(token).getBody();
     }
+
+    public String getSubjectFromRefreshToken(String refreshToken){
+        final Claims claims = getClaims(refreshToken);
+        String authorizationValue = (String) claims.get("Authorization");
+        return claims.getSubject();
+    }
 }

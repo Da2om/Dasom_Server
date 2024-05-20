@@ -2,6 +2,7 @@ package com.project.dasomapi.auth.handler;
 
 import com.project.dasomapi.auth.usecase.AuthUseCase;
 import com.project.dasomapi.auth.usecase.req.LoginReq;
+import com.project.dasomapi.auth.usecase.req.ReissueReq;
 import com.project.dasomapi.common.Response;
 import com.project.dasomapi.common.ResponseData;
 import com.project.dasomcore.auth.application.dto.Token;
@@ -19,5 +20,10 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseData<Token> login(LoginReq req){
         return authUseCase.login(req);
+    }
+
+    @PostMapping("/reissue")
+    public Response reissue(ReissueReq req){
+        return authUseCase.reissue(req);
     }
 }
