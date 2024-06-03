@@ -38,4 +38,14 @@ public class Child {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "fk_member_id", unique = true)
     private Member member;
+
+    public void modify(Child child) {
+        this.childName = child.childName;
+        this.age = child.age;
+        this.cls = child.cls;
+        this.gender = child.gender;
+        this.birthDt = child.birthDt;
+        this.bloodType = child.bloodType;
+        this.isDisease = child.isDisease;
+    }
 }

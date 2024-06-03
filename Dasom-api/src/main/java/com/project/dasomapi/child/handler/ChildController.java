@@ -1,14 +1,16 @@
 package com.project.dasomapi.child.handler;
 
 import com.project.dasomapi.child.usecase.ChildUseCase;
+import com.project.dasomapi.child.usecase.req.ChildModifyReq;
 import com.project.dasomapi.child.usecase.req.ChildRegisterReq;
 import com.project.dasomapi.common.Response;
+import com.project.dasomapi.common.ResponseData;
+import com.project.dasomcore.child.application.MyChildInfoRes;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -19,5 +21,15 @@ public class ChildController {
     @PostMapping
     public Response register(@RequestBody @Valid ChildRegisterReq req){
         return childUseCase.register(req);
+    }
+
+    @PatchMapping
+    public Response modify(@RequestBody @Valid ChildModifyReq req){
+        return childUseCase.modify(req);
+    }
+
+    @GetMapping("/my")
+    public ResponseData<List<MyChildInfoRes>> get(){
+        return childUseCase.getMyChild();
     }
 }

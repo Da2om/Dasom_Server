@@ -19,7 +19,6 @@ public class TokenExtractor {
     private final TokenProperties tokenProperties;
     private final MemberService memberService;
 
-    @Transactional
     public Authentication getAuthentication(String accessToken) {
         Claims claims = getClaims(accessToken);
         Member member = memberService.getByEmail(claims.getSubject());
@@ -44,7 +43,6 @@ public class TokenExtractor {
 
     public String getSubjectFromRefreshToken(String refreshToken){
         final Claims claims = getClaims(refreshToken);
-        String authorizationValue = (String) claims.get("Authorization");
         return claims.getSubject();
     }
 }

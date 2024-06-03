@@ -4,11 +4,11 @@ import com.project.dasomapi.common.util.DateUtil;
 import com.project.dasomcore.child.domain.consts.BloodType;
 import com.project.dasomcore.child.domain.consts.Gender;
 import com.project.dasomcore.child.domain.entity.Child;
-import com.project.dasomcore.member.domain.entity.Member;
 
 import java.time.LocalDate;
 
-public record ChildRegisterReq(
+public record ChildModifyReq(
+        Long id,
         String name,
         String cls,
         String gender,
@@ -16,7 +16,7 @@ public record ChildRegisterReq(
         String bloodType,
         Boolean isDisease
 ) {
-    public Child toEntity(Member member){
+    public Child toEntity(){
         return Child.builder()
                 .childName(name)
                 .birthDt(birthDt)
@@ -25,7 +25,6 @@ public record ChildRegisterReq(
                 .bloodType(BloodType.of(bloodType))
                 .age(DateUtil.DtToYear(birthDt))
                 .isDisease(isDisease)
-                .member(member)
                 .build();
     }
 }
