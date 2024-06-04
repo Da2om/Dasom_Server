@@ -11,7 +11,7 @@ import java.util.List;
 
 @Repository
 @RequiredArgsConstructor
-public class NoticeRepoCustomImpl implements NoticeRepoCustom{
+public class CustomNotificationRepoImpl implements CustomNotificationRepo {
 
     private final JPAQueryFactory query;
 

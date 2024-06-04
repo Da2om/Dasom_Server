@@ -6,6 +6,7 @@ import com.project.dasomcore.notice.application.response.NoticeInfoRes;
 import com.project.dasomcore.notice.application.service.NoticeSearchService;
 import com.project.dasomcore.notice.application.response.NoticeRes;
 import lombok.RequiredArgsConstructor;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,7 +21,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class NoticeController {
 
-    private final NoticeSearchService searchService;
     private final NoticeUseCase useCase;
 
     /**
@@ -30,7 +30,16 @@ public class NoticeController {
     public NoticeInfoRes noticeInfo(
             @RequestParam Long noticeId
     ){
-        return searchService.noticeInfo(noticeId);
+        return useCase.noticeInfo(noticeId);
+    }
+
+    /**
+     * 알림장 리스트
+     * */
+    @GetMapping("/list")
+    @Transactional(readOnly = true)
+public List<NoticeRes> noticeList(){
+        return useCase.noticeList();
     }
 
     /**
@@ -41,14 +50,6 @@ public class NoticeController {
             @RequestBody SaveNoticeReq req
     ){
         useCase.saveNotice(req);
-    }
-
-    /**
-     * 알림장 리스트
-     * */
-    @GetMapping("/list")
-    public List<NoticeRes> noticeList(){
-        return searchService.noticeList();
     }
 
 }

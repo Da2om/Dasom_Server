@@ -1,9 +1,9 @@
 package com.project.dasomcore.notice.repository;
 
 import com.project.dasomcore.notice.domain.Notice;
-import com.project.dasomcore.notice.repository.querydsl.NoticeRepoCustom;
+import com.project.dasomcore.notice.repository.querydsl.CustomNotificationRepo;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface NoticeRepository extends JpaRepository<Notice,Long> , NoticeRepoCustom {
+public interface NoticeRepository extends JpaRepository<Notice,Long> , CustomNotificationRepo {
 
 }

@@ -5,7 +5,7 @@ import com.project.dasomcore.notice.application.response.NoticeRes;
 
 import java.util.List;
 
-public interface NoticeRepoCustom {
+public interface CustomNotificationRepo {
 
     NoticeInfoRes noticeInfo(Long id);
 
