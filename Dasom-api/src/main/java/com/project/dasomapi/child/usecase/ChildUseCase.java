@@ -4,11 +4,11 @@ import com.project.dasomapi.child.usecase.req.ChildModifyReq;
 import com.project.dasomapi.child.usecase.req.ChildRegisterReq;
 import com.project.dasomapi.common.Response;
 import com.project.dasomapi.common.ResponseData;
-import com.project.dasomapi.common.util.DateUtil;
+import com.project.dasomcore.child.application.ChildRes;
 import com.project.dasomcore.child.application.ChildService;
 import com.project.dasomcore.child.application.MyChildInfoRes;
-import com.project.dasomcore.child.domain.consts.Gender;
 import com.project.dasomcore.child.domain.entity.Child;
+import com.project.dasomapi.common.dto.PageRequest;
 import com.project.dasomcore.member.application.MemberSessionHolder;
 import com.project.dasomcore.member.domain.entity.Member;
 import lombok.RequiredArgsConstructor;
@@ -40,5 +40,11 @@ public class ChildUseCase {
         Member member = sessionHolder.current();
         List<MyChildInfoRes> childList = childService.getMyChildList(member);
         return ResponseData.ok("내 아이 조회 성공", childList);
+    }
+
+    public ResponseData<List<ChildRes>> getChildList(PageRequest pageRequest){
+        pageRequest.validate();
+        List<ChildRes> res = childService.getChildResList(pageRequest.page(),pageRequest.size());
+        return ResponseData.ok("아이 리스트 조회 성공", res);
     }
 }

@@ -1,6 +1,9 @@
 package com.project.dasomcore.child.repo;
 
+import com.project.dasomcore.child.application.ChildRes;
 import com.project.dasomcore.child.application.MyChildInfoRes;
+import com.project.dasomcore.child.domain.consts.BloodType;
+import com.project.dasomcore.child.domain.consts.Gender;
 import com.project.dasomcore.child.domain.entity.Child;
 import com.project.dasomcore.member.domain.entity.Member;
 import com.querydsl.core.types.ConstructorExpression;
@@ -32,5 +35,28 @@ public class QuerydslChildRepositoryImpl implements QuerydslChildRepository{
                 ).from(child)
                 .where(child.member.eq(member))
                 .fetch();
+    }
+
+    @Override
+    public List<ChildRes> findList(Long page, Long size) {
+        return queryFactory
+                .select(responseProjection())
+                .from(child)
+                .offset((page - 1) * size)
+                .limit(size)
+                .fetch();
+    }
+
+    private ConstructorExpression<ChildRes> responseProjection(){
+        Projections.constructor(ChildRes.class,
+                child.childId,
+                child.childName
+                child.age,
+                child.cls,
+                child.gender,
+                child.birthDt,
+                child.bloodType,
+                child.isDisease
+        )
     }
 }

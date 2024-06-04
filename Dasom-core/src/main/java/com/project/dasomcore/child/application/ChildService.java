@@ -27,4 +27,8 @@ public class ChildService {
     public List<MyChildInfoRes> getMyChildList(Member member){
         return childRepository.findMyChildByMember(member);
     }
+
+    public List<ChildRes> getChildResList(Long page, Long size){
+        return childRepository.findList(page,size);
+    }
 }

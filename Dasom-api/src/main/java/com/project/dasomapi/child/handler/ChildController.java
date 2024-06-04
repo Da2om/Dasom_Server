@@ -5,7 +5,9 @@ import com.project.dasomapi.child.usecase.req.ChildModifyReq;
 import com.project.dasomapi.child.usecase.req.ChildRegisterReq;
 import com.project.dasomapi.common.Response;
 import com.project.dasomapi.common.ResponseData;
+import com.project.dasomcore.child.application.ChildRes;
 import com.project.dasomcore.child.application.MyChildInfoRes;
+import com.project.dasomapi.common.dto.PageRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -29,7 +31,12 @@ public class ChildController {
     }
 
     @GetMapping("/my")
-    public ResponseData<List<MyChildInfoRes>> get(){
+    public ResponseData<List<MyChildInfoRes>> getMyChild(){
         return childUseCase.getMyChild();
+    }
+
+    @GetMapping
+    public ResponseData<List<ChildRes>> getList(PageRequest pageRequest){
+        return childUseCase.getChildList(pageRequest);
     }
 }
