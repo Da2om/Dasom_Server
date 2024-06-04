@@ -1,3 +1,13 @@
 package com.project.dasomapi.notice.request;
 
-public record SaveNoticeReq(String title,String content) {}
+import com.project.dasomcore.notice.domain.Notice;
+
+public record SaveNoticeReq(String title, String content) {
+    public Notice toEntity(Long userId) {
+        return Notice.builder()
+                .title(title())
+                .content(content())
+                .fkMemberId(userId)
+                .build();
+    }
+}

@@ -9,7 +9,6 @@ import com.project.dasomcore.notice.domain.Notice;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDate;
 import java.util.List;
 
 @Component
@@ -28,12 +27,7 @@ public class NoticeUseCase {
     }
 
     public void saveNotice(SaveNoticeReq req){
-        noticeRegisterService.saveNotice(Notice.builder()
-                .title(req.title())
-                .content(req.content())
-                .writtenDt(LocalDate.now())
-//                .fkMemberId()
-                .build());
+        noticeRegisterService.saveNotice(req.toEntity(userId));
     }
 
 }
