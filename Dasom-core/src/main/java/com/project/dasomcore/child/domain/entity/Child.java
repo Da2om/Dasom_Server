@@ -35,8 +35,8 @@ public class Child {
 
     private Boolean isDisease;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "fk_member_id", unique = true)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "fk_member_id")
     private Member member;
 
     public void modify(Child child) {

@@ -48,15 +48,15 @@ public class QuerydslChildRepositoryImpl implements QuerydslChildRepository{
     }
 
     private ConstructorExpression<ChildRes> responseProjection(){
-        Projections.constructor(ChildRes.class,
+        return Projections.constructor(ChildRes.class,
                 child.childId,
-                child.childName
+                child.childName,
                 child.age,
                 child.cls,
                 child.gender,
                 child.birthDt,
                 child.bloodType,
                 child.isDisease
-        )
+        );
     }
 }
