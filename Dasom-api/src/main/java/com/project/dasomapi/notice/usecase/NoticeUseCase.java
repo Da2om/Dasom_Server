@@ -43,7 +43,7 @@ public class NoticeUseCase {
     }
 
     public Response saveNotice(SaveNoticeReq req){
-        noticeRegisterService.saveNotice(req.toEntity(memberSessionHolder.current()));
+        noticeRegisterService.saveNotice(req.toEntity(memberSessionHolder.current().getEmail()));
         return Response.ok("알림장 저장 성공");
     }
 
@@ -56,7 +56,7 @@ public class NoticeUseCase {
                 .name(fileName)
                 .size(file.getSize())
                 .extension(getExtension(fileName))
-                .memberId(memberSessionHolder.current())
+                .memberId(memberSessionHolder.current().getEmail())
                 .noticeId(noticeId).build());
         return Response.ok("파일 업로드 성공");
     }
