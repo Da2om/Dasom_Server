@@ -23,14 +23,12 @@ public class File {
 
     private String name;
 
-    private Integer size;
+    private Long size;
 
     private String extension;
 
     private String memberId;
 
     private Integer noticeId;
-
-    private Integer requestId;
 
 }
