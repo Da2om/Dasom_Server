@@ -29,6 +29,6 @@ public class File {
 
     private String memberId;
 
-    private Integer noticeId;
+    private Long noticeId;
 
 }

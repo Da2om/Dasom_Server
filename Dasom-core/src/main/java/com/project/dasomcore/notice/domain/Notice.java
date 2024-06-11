@@ -32,6 +32,6 @@ public class Notice {
     @Column(nullable = false)
     private LocalDate writtenDt;
 
-    private Long fkMemberId;
+    private String fkMemberId;
 
 }

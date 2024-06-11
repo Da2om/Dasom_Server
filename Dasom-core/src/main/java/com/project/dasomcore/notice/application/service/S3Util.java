@@ -1,5 +1,6 @@
 package com.project.dasomcore.notice.application.service;
 
+import org.springframework.beans.factory.annotation.Value;
 import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
 import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider;
 import software.amazon.awssdk.awscore.exception.AwsServiceException;
@@ -19,12 +20,19 @@ import java.time.Duration;
 
 public class S3Util {
 
-    public static final String BUCKET = "";
+    @Value("{spring.cloud.aws.bucket.name}")
+    public static String BUCKET;
+
+    @Value("{spring.cloud.aws.accessKey}")
+    public static String accessKey;
+
+    @Value("{spring.cloud.aws.secretAccessKey}")
+    public static String secretAccessKey;
 
     public static String uploadFile(String uuid, InputStream inputStream)
             throws AwsServiceException, SdkClientException, IOException {
 
-        AwsBasicCredentials credentials = AwsBasicCredentials.create("","");
+        AwsBasicCredentials credentials = AwsBasicCredentials.create(accessKey,secretAccessKey);
 
         S3Client client = S3Client.builder()
                 .region(Region.AP_NORTHEAST_2)
