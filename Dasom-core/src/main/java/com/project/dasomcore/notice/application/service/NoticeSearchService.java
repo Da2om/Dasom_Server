@@ -1,5 +1,6 @@
 package com.project.dasomcore.notice.application.service;
 
+import com.project.dasomapi.common.request.PageRequest;
 import com.project.dasomcore.notice.application.response.NoticeInfoRes;
 import com.project.dasomcore.notice.application.response.NoticeRes;
 import com.project.dasomcore.notice.repository.NoticeRepository;
@@ -18,8 +19,8 @@ public class NoticeSearchService {
         return noticeRepository.noticeInfo(noticeId);
     }
 
-    public List<NoticeRes> noticeList(){
-        return noticeRepository.noticeList();
+    public List<NoticeRes> noticeList(PageRequest request){
+        return noticeRepository.noticeList(request);
     }
 
 }

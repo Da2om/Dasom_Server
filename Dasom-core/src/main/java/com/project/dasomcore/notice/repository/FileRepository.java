@@ -1,6 +1,6 @@
 package com.project.dasomcore.notice.repository;
 
-import com.project.dasomcore.notice.domain.File;
+import com.project.dasomcore.notice.domain.entity.File;
 import com.project.dasomcore.notice.repository.querydsl.CustomFileRepo;
 import org.springframework.data.jpa.repository.JpaRepository;
 

@@ -1,6 +1,6 @@
 package com.project.dasomapi.notice.request;
 
-import com.project.dasomcore.notice.domain.Notice;
+import com.project.dasomcore.notice.domain.entity.Notice;
 
 public record SaveNoticeReq(String title, String content) {
     public Notice toEntity(String userId) {

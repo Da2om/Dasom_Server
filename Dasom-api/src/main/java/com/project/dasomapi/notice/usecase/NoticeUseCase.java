@@ -2,6 +2,7 @@ package com.project.dasomapi.notice.usecase;
 
 import com.project.dasomapi.common.Response;
 import com.project.dasomapi.common.ResponseData;
+import com.project.dasomapi.common.request.PageRequest;
 import com.project.dasomapi.notice.request.SaveNoticeReq;
 import com.project.dasomcore.member.application.MemberSessionHolder;
 import com.project.dasomcore.notice.application.response.NoticeInfoRes;
@@ -10,7 +11,7 @@ import com.project.dasomcore.notice.application.service.FileService;
 import com.project.dasomcore.notice.application.service.NoticeRegisterService;
 import com.project.dasomcore.notice.application.service.NoticeSearchService;
 import com.project.dasomcore.notice.application.service.S3Util;
-import com.project.dasomcore.notice.domain.File;
+import com.project.dasomcore.notice.domain.entity.File;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
@@ -33,8 +34,8 @@ public class NoticeUseCase {
         return ResponseData.ok("알림장 조회 성공", noticeSearchService.noticeInfo(noticeId));
     }
 
-    public List<NoticeRes> noticeList() {
-        return noticeSearchService.noticeList();
+    public ResponseData<List<NoticeRes>> noticeList(PageRequest request) {
+        return ResponseData.ok("알림장 리스트 조회 성공",noticeSearchService.noticeList(request));
     }
 
     public Response saveNotice(SaveNoticeReq req){
