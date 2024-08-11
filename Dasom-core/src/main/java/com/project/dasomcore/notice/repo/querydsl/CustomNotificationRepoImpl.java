@@ -1,4 +1,4 @@
-package com.project.dasomcore.notice.repository.querydsl;
+package com.project.dasomcore.notice.repo.querydsl;
 
 import com.project.dasomcore.notice.application.response.NoticeInfoRes;
 import com.project.dasomcore.notice.application.response.NoticeRes;
@@ -10,8 +10,8 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-import static com.project.dasomcore.notice.domain.entity.QNotice.notice;
-import static com.project.dasomcore.member.domain.entity.QMember.member;
+import static com.project.dasomcore.notice.domain.QNotice.notice;
+
 
 @Repository
 @RequiredArgsConstructor
@@ -29,7 +29,7 @@ public class CustomNotificationRepoImpl implements CustomNotificationRepo {
                         member.name
                 ))
                 .from(notice)
-                .innerJoin(member).on(member.userId.eq(noticeId))
+                .innerJoin(member).on(member.memberId.eq(notice.fkMemberId))
                 .fetchOne();
     }
 
@@ -42,7 +42,7 @@ public class CustomNotificationRepoImpl implements CustomNotificationRepo {
                 .from(notice)
                 .offset((request.getPage() - 1) * request.getSize())
                 .limit(request.getSize())
-                .orderBy(notice.idx.desc())
+                .orderBy(notice.noticeId.desc())
                 .fetch();
     }
 

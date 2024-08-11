@@ -1,4 +1,4 @@
-package com.project.dasomcore.notice.repository.querydsl;
+package com.project.dasomcore.notice.repo.querydsl;
 
 import com.project.dasomapi.common.request.PageRequest;
 import com.project.dasomcore.notice.application.response.NoticeInfoRes;

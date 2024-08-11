@@ -40,7 +40,7 @@ public class NoticeUseCase {
 
     public Response saveNotice(SaveNoticeReq req){
         noticeRegisterService.saveNotice(req.toEntity(memberSessionHolder.current().getEmail()));
-        return Response.ok("알림장 저장 성공");
+        return Response.created("알림장 저장 성공");
     }
 
     public Response fileUpload(MultipartFile file,Long noticeId) throws IOException {

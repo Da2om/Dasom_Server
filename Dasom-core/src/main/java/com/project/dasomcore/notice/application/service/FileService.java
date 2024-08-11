@@ -1,7 +1,7 @@
 package com.project.dasomcore.notice.application.service;
 
 import com.project.dasomcore.notice.domain.entity.File;
-import com.project.dasomcore.notice.repository.FileRepository;
+import com.project.dasomcore.notice.repo.FileRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

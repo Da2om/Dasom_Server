@@ -1,4 +1,4 @@
-package com.project.dasomcore.notice.repository.querydsl;
+package com.project.dasomcore.notice.repo.querydsl;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
