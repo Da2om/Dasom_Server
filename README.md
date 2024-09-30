@@ -17,3 +17,7 @@ S3 다중 파일 업로드
 (1) - https://velog.io/@heunseo7710/S3Util-%EB%B6%84%EC%84%9D%ED%95%98%EA%B8%B0
 
 (2) - https://velog.io/@heunseo7710/S3-Util-%EB%B6%84%EC%84%9D%ED%95%98%EA%B8%B0-ver2
+
+채팅 구현
+
+https://infinitecode.tistory.com/60
