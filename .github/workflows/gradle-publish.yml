@@ -43,4 +43,4 @@ jobs:
           docker rm dasom
           docker rmi ${{ secrets.DOCKER_USERNAME }}/dasom:latest
           docker pull ${{ secrets.DOCKER_USERNAME }}/dasom:latest
-          docker run -d -p 8080:8080 --name dasom ${{ secrets.DOCKER_USERNAME }}/dasom:latest
+          docker run -d -p 80:8080 --name dasom ${{ secrets.DOCKER_USERNAME }}/dasom:latest
