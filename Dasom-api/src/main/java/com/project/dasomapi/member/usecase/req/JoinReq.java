@@ -1,16 +1,19 @@
 package com.project.dasomapi.member.usecase.req;
 
+import com.project.dasomcore.member.domain.consts.MemberClass;
 import com.project.dasomcore.member.domain.consts.MemberRole;
 import com.project.dasomcore.member.domain.consts.MemberState;
 import com.project.dasomcore.member.domain.entity.Member;
+import jakarta.annotation.Nullable;
 
 public record JoinReq(
         String email,
+        String username,
         String pw,
         String name,
-        String tel,
         String pushToken,
         String authCode,
+        Integer classInCharge,
         int role
 ) {
     public Member toEntity(String encodePw){
@@ -18,8 +21,8 @@ public record JoinReq(
                 .email(email)
                 .pw(encodePw)
                 .name(name)
-                .tel(tel)
                 .state(MemberState.ACTIVATE)
+                .classInCharge(MemberClass.of(classInCharge))
                 .role(MemberRole.of(role))
                 .isOnChattingAlarm(Boolean.TRUE)
                 .isOnNoticeAlarm(Boolean.TRUE)

@@ -2,76 +2,131 @@ package com.project.dasomapi.notice.usecase;
 
 import com.project.dasomapi.common.Response;
 import com.project.dasomapi.common.ResponseData;
-import com.project.dasomapi.common.request.PageRequest;
-import com.project.dasomapi.notice.request.SaveNoticeReq;
+import com.project.dasomapi.common.dto.PageRequest;
+import com.project.dasomapi.notice.usecase.req.SaveNoticeReq;
+import com.project.dasomapi.notice.usecase.req.UploadNoticeFileReq;
+import com.project.dasomapi.notice.usecase.req.UploadNoticeImageReq;
+import com.project.dasomcore.child.application.ChildService;
+import com.project.dasomcore.child.domain.entity.Child;
 import com.project.dasomcore.member.application.MemberSessionHolder;
+import com.project.dasomcore.member.domain.entity.Member;
+import com.project.dasomcore.notice.application.response.MyClassNoticeListRes;
+import com.project.dasomcore.notice.application.response.MyNoticeListRes;
 import com.project.dasomcore.notice.application.response.NoticeInfoRes;
-import com.project.dasomcore.notice.application.response.NoticeRes;
-import com.project.dasomcore.notice.application.service.FileService;
-import com.project.dasomcore.notice.application.service.NoticeRegisterService;
-import com.project.dasomcore.notice.application.service.NoticeSearchService;
-import com.project.dasomcore.notice.application.service.S3Util;
-import com.project.dasomcore.notice.domain.entity.File;
+import com.project.dasomcore.notice.application.response.UploadNoticeFileRes;
+import com.project.dasomcore.notice.application.response.UploadNoticeImageRes;
+import com.project.dasomcore.notice.application.service.AwsS3Service;
+import com.project.dasomcore.notice.application.service.NoticeFileService;
+import com.project.dasomcore.notice.application.service.NoticeImageService;
+import com.project.dasomcore.notice.application.service.NoticeService;
+import com.project.dasomcore.notice.domain.consts.ShareScope;
+import com.project.dasomcore.notice.domain.entity.Notice;
+import com.project.dasomcore.notice.domain.entity.NoticeFile;
+import com.project.dasomcore.notice.domain.entity.NoticeImage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import org.springframework.web.multipart.MultipartFile;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.io.IOException;
 import java.util.List;
-import java.util.UUID;
 
 @Component
 @RequiredArgsConstructor
+@Transactional(rollbackFor = Exception.class)
 public class NoticeUseCase {
 
-    private final NoticeRegisterService noticeRegisterService;
-    private final NoticeSearchService noticeSearchService;
+    private final NoticeService noticeService;
+    private final NoticeImageService imageService;
+    private final NoticeFileService fileService;
+
+    private final AwsS3Service awsS3Service;
+
     private final MemberSessionHolder memberSessionHolder;
-    private final FileService fileService;
-    private final S3Util s3Util;
+    private final ChildService childService;
 
     public ResponseData<NoticeInfoRes> noticeInfo(Long noticeId) {
-        return ResponseData.ok("알림장 조회 성공", noticeSearchService.noticeInfo(noticeId));
+        NoticeInfoRes res = noticeService.noticeInfo(noticeId);
+        return ResponseData.ok("알림장 조회 성공", res);
     }
 
-    public ResponseData<List<NoticeRes>> noticeList(PageRequest request) {
-        return ResponseData.ok("알림장 리스트 조회 성공",noticeSearchService.noticeList(request));
+    public ResponseData<List<MyNoticeListRes>> myNoticeList(PageRequest request,Long childId) {
+        request.validate();
+        Child child = childService.getById(childId);
+        List<MyNoticeListRes> res = noticeService.getMyNotices(request.page(), request.size(),child);
+        return ResponseData.ok("알림장 리스트 조회 성공",res);
+    }
+
+    public ResponseData<List<MyClassNoticeListRes>> myClassNoticeList(PageRequest request) {
+        request.validate();
+        Member member = memberSessionHolder.current();
+        List<MyClassNoticeListRes> res = noticeService.getMyClassNotices(request.page(), request.size(),member);
+        return ResponseData.ok("알림장 리스트 조회 성공",res);
     }
 
     public Response saveNotice(SaveNoticeReq req){
-        noticeRegisterService.saveNotice(req.toEntity(memberSessionHolder.current().getEmail()));
+        // 알림장 저장
+        Member writer = memberSessionHolder.current();
+        Child sharingChild = null;
+        if(req.shareScope() == ShareScope.PERSONAL) {
+            sharingChild = childService.getById(req.childIdToShare());
+        }
+
+        Notice notice = noticeService.saveNotice(req.toEntity(writer,sharingChild));
+
+        // 이미지 저장
+        for (String imageUrl : req.imageList()) {
+            imageService.saveImage(NoticeImage.builder()
+                    .url(imageUrl)
+                    .notice(notice).build());
+        }
+
+        // 파일 저장
+        for (String fileUrl : req.fileList()) {
+            fileService.saveFile(NoticeFile.builder()
+                    .url(fileUrl)
+                    .notice(notice).build());
+        }
+
         return Response.created("알림장 저장 성공");
     }
 
-    public Response fileUpload(MultipartFile file,Long noticeId) throws IOException {
-        String url = s3Util.uploadFile(generateType4UUID(),file.getInputStream());
-
-        String fileName = file.getOriginalFilename();
-        fileService.saveFile(File.builder()
-                .url(url)
-                .name(fileName)
-                .size(file.getSize())
-                .extension(getExtension(fileName))
-                .memberId(memberSessionHolder.current().getEmail())
-                .noticeId(noticeId).build());
-        return Response.ok("파일 업로드 성공");
+    public ResponseData<UploadNoticeImageRes> uploadImage(UploadNoticeImageReq req) {
+        String url = awsS3Service.upload(req.file(),"notice_image");
+        UploadNoticeImageRes res = UploadNoticeImageRes.of(url);
+        return ResponseData.created("알림장 사진 업로드 성공",res);
     }
 
-    /**
-     * UUID v4를 생성합니다.
-     * @return
-     */
-    private static String generateType4UUID() {
-        // 버전 4 UUID 생성하기
-        UUID uuid = UUID.randomUUID();
-        return uuid.toString();
+    public ResponseData<UploadNoticeFileRes> uploadFile(UploadNoticeFileReq req) {
+        String url = awsS3Service.upload(req.file(),"notice_file");
+        UploadNoticeFileRes res = UploadNoticeFileRes.of(url);
+        return ResponseData.created("알림장 파일 업로드 성공",res);
     }
 
-    /**
-     * 파일 확장자를 추출합니다.
-     * @return
-     */
-    private String getExtension(String fileName) {
-        return fileName.substring(fileName.lastIndexOf(".") + 1);
+    public Response updateNotice(SaveNoticeReq req,Long id) {
+        // 알림장 조회
+        Notice notice = noticeService.getById(id);
+        Child sharingChild = null;
+        if(req.shareScope() == ShareScope.PERSONAL) {
+            sharingChild = childService.getById(req.childIdToShare());
+        }
+        // 수정
+        notice.update(req.title(),req.content(),req.shareScope(),sharingChild);
+
+        imageService.deleteByNotice(notice);
+        // 이미지 수정
+        for (String imageUrl : req.imageList()) {
+            imageService.saveImage(NoticeImage.builder()
+                    .url(imageUrl)
+                    .notice(notice).build());
+        }
+
+        fileService.deleteByNotice(notice);
+        // 파일 수정
+        for (String fileUrl : req.fileList()) {
+            fileService.saveFile(NoticeFile.builder()
+                    .url(fileUrl)
+                    .notice(notice).build());
+        }
+
+        return Response.created("알림장 수정 성공");
     }
 }

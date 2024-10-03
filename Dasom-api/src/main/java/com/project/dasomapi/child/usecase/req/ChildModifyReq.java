@@ -14,7 +14,9 @@ public record ChildModifyReq(
         String gender,
         LocalDate birthDt,
         String bloodType,
-        Boolean isDisease
+        Boolean isDisease,
+        String emergencyContactNumber,
+        String imageUrl
 ) {
     public Child toEntity(){
         return Child.builder()
@@ -25,6 +27,8 @@ public record ChildModifyReq(
                 .bloodType(BloodType.of(bloodType))
                 .age(DateUtil.DtToYear(birthDt))
                 .isDisease(isDisease)
+                .emergencyContactNumber(emergencyContactNumber)
+                .imageUrl(imageUrl)
                 .build();
     }
 }

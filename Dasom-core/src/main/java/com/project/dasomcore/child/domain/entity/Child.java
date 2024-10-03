@@ -2,6 +2,7 @@ package com.project.dasomcore.child.domain.entity;
 
 import com.project.dasomcore.child.domain.consts.BloodType;
 import com.project.dasomcore.child.domain.consts.Gender;
+import com.project.dasomcore.member.domain.consts.MemberClass;
 import com.project.dasomcore.member.domain.entity.Member;
 import jakarta.persistence.*;
 import lombok.*;
@@ -35,6 +36,12 @@ public class Child {
 
     private Boolean isDisease;
 
+    private String emergencyContactNumber;
+
+    private String imageUrl;
+
+    private MemberClass assignedClass;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "fk_member_id")
     private Member member;
@@ -47,5 +54,7 @@ public class Child {
         this.birthDt = child.birthDt;
         this.bloodType = child.bloodType;
         this.isDisease = child.isDisease;
+        this.emergencyContactNumber = child.emergencyContactNumber;
+        this.imageUrl = child.imageUrl;
     }
 }

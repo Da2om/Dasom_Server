@@ -13,8 +13,8 @@ public class MemberDetailsService implements UserDetailsService {
     private final MemberService memberService;
 
     @Override
-    public UserDetails loadUserByUsername(String email) {
-        Member member = memberService.getByEmail(email);
+    public UserDetails loadUserByUsername(String username) {
+        Member member = memberService.getByUsername(username);
         return new MemberDetails(member);
     }
 }

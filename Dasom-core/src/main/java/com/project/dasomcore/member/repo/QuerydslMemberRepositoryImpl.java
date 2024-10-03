@@ -13,9 +13,10 @@ public class QuerydslMemberRepositoryImpl implements QuerydslMemberRepository{
     private final JPAQueryFactory queryFactory;
 
     @Override
-    public Member findByEmail(String email) {
+    public Member findByUsername(String username) {
         return queryFactory.selectFrom(member)
-                .where(member.email.eq(email))
+                .where(member.username.eq(username))
                 .fetchFirst();
+//        return null;
     }
 }

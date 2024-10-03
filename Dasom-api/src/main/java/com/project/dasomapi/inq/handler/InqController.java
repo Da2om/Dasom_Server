@@ -2,12 +2,11 @@ package com.project.dasomapi.inq.handler;
 
 import com.project.dasomapi.common.Response;
 import com.project.dasomapi.common.ResponseData;
-import com.project.dasomapi.common.request.PageRequest;
-import com.project.dasomapi.inq.handler.req.InqInfoRes;
+import com.project.dasomapi.common.dto.PageRequest;
+import com.project.dasomcore.inq.application.response.InqInfoRes;
 import com.project.dasomapi.inq.handler.req.SaveInqReq;
 import com.project.dasomapi.inq.usecase.InqUseCase;
 import com.project.dasomcore.inq.application.response.InqRes;
-import com.project.dasomcore.notice.application.response.NoticeInfoRes;
 import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;

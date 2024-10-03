@@ -1,10 +1,8 @@
 package com.project.dasomcore.child.repo;
 
-import com.project.dasomcore.child.application.ChildRes;
-import com.project.dasomcore.child.application.MyChildInfoRes;
-import com.project.dasomcore.child.domain.consts.BloodType;
-import com.project.dasomcore.child.domain.consts.Gender;
-import com.project.dasomcore.child.domain.entity.Child;
+import com.project.dasomcore.child.application.response.ChildRes;
+import com.project.dasomcore.child.application.response.MyChildInfoRes;
+import com.project.dasomcore.member.domain.consts.MemberClass;
 import com.project.dasomcore.member.domain.entity.Member;
 import com.querydsl.core.types.ConstructorExpression;
 import com.querydsl.core.types.Projections;
@@ -13,7 +11,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
 import java.util.List;
 
 import static com.project.dasomcore.child.domain.entity.QChild.child;
@@ -44,6 +41,26 @@ public class QuerydslChildRepositoryImpl implements QuerydslChildRepository{
                 .from(child)
                 .offset((page - 1) * size)
                 .limit(size)
+                .fetch();
+    }
+
+    @Override
+    public List<ChildRes> findListByAssignedClass(Long page, Long size, MemberClass cls) {
+        return queryFactory
+                .select(responseProjection())
+                .from(child)
+                .where(child.assignedClass.eq(cls))
+                .offset((page - 1) * size)
+                .limit(size)
+                .fetch();
+    }
+
+    @Override
+    public List<ChildRes> getChildResListByName(Long page, Long size,String name) {
+        return queryFactory
+                .select(responseProjection())
+                .from(child)
+                .where(child.childName.contains(name))
                 .fetch();
     }
 

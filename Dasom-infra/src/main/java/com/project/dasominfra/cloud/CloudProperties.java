@@ -8,9 +8,9 @@ import org.springframework.context.annotation.Configuration;
 @Getter
 @Setter
 @Configuration
-@ConfigurationProperties(prefix = "application.cloud.aws")
+@ConfigurationProperties(prefix = "cloud.aws.credentials")
 public class CloudProperties {
     private String accessKey;
-    private String secretAccessKey;
-    private String bucketName;
+    private String secretKey;
+    private String bucket;
 }

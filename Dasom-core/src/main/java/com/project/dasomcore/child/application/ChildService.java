@@ -1,8 +1,11 @@
 package com.project.dasomcore.child.application;
 
+import com.project.dasomcore.child.application.response.ChildRes;
+import com.project.dasomcore.child.application.response.MyChildInfoRes;
 import com.project.dasomcore.child.domain.entity.Child;
 import com.project.dasomcore.child.domain.exception.ChildNotFoundException;
 import com.project.dasomcore.child.repo.ChildRepository;
+import com.project.dasomcore.member.domain.consts.MemberClass;
 import com.project.dasomcore.member.domain.entity.Member;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -30,5 +33,13 @@ public class ChildService {
 
     public List<ChildRes> getChildResList(Long page, Long size){
         return childRepository.findList(page,size);
+    }
+
+    public List<ChildRes> getChildResListByClass(Long page, Long size, MemberClass cls) {
+        return childRepository.findListByAssignedClass(page,size,cls);
+    }
+
+    public List<ChildRes> getChildResListByName(Long page, Long size,String name) {
+        return childRepository.getChildResListByName(page,size,name);
     }
 }

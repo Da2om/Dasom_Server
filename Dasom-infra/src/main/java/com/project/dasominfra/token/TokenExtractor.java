@@ -10,7 +10,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 @Component
@@ -21,7 +20,7 @@ public class TokenExtractor {
 
     public Authentication getAuthentication(String accessToken) {
         Claims claims = getClaims(accessToken);
-        Member member = memberService.getByEmail(claims.getSubject());
+        Member member = memberService.getByUsername(claims.getSubject());
         MemberDetails details = new MemberDetails(member);
         return new UsernamePasswordAuthenticationToken(details, null, details.getAuthorities());
     }

@@ -1,7 +1,6 @@
 package com.project.dasomcore.inq.application.service;
 
-import com.project.dasomapi.common.request.PageRequest;
-import com.project.dasomapi.inq.handler.req.InqInfoRes;
+import com.project.dasomcore.inq.application.response.InqInfoRes;
 import com.project.dasomcore.inq.application.response.InqRes;
 import com.project.dasomcore.inq.repo.InqRepository;
 import lombok.RequiredArgsConstructor;
@@ -15,8 +14,8 @@ public class InqSearchService {
 
     private final InqRepository inqRepository;
 
-    public List<InqRes> inqList(PageRequest req){
-        return inqRepository.inqList(req);
+    public List<InqRes> inqList(int page,int size){
+        return inqRepository.inqList(page,size);
     }
 
     public InqInfoRes inqInfo(Long inqId){

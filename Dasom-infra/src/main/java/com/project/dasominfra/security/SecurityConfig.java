@@ -35,6 +35,7 @@ public class SecurityConfig {
                 .addFilterBefore(tokenExceptionFilter, TokenFilter.class)
                 .authorizeHttpRequests(
                         authorize -> authorize
+                                .requestMatchers("/swagger-ui/**", "/v3/**").permitAll()
                                 .requestMatchers("/member/join").permitAll()
                                 .requestMatchers("/auth/**").permitAll()
                                 .anyRequest().authenticated()

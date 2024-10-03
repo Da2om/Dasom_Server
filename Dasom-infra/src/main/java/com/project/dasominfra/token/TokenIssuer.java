@@ -17,14 +17,14 @@ import java.util.Date;
 public class TokenIssuer {
     private final TokenProperties tokenProperties;
 
-    public Token issueToken(String email, final MemberRole role) {
-        return new Token(issueAccessToken(email,role), issueRefreshToken(email,role));
+    public Token issueToken(String username, final MemberRole role) {
+        return new Token(issueAccessToken(username,role), issueRefreshToken(username,role));
     }
 
-    public String issueAccessToken(String email, final MemberRole role) {
+    public String issueAccessToken(String username, final MemberRole role) {
         return Jwts.builder()
                 .setHeaderParam(Header.JWT_TYPE, "ACCESS")
-                .setSubject(email)
+                .setSubject(username)
                 .claim(tokenProperties.getHeader(), role)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + tokenProperties.getAccessExp()))
@@ -32,11 +32,11 @@ public class TokenIssuer {
                 .compact();
     }
 
-    private String issueRefreshToken(String email, final MemberRole role) {
+    private String issueRefreshToken(String username, final MemberRole role) {
         return Jwts.builder()
                 .setHeaderParam(Header.JWT_TYPE, "REFRESH")
                 .claim(tokenProperties.getHeader(), role)
-                .setSubject(email)
+                .setSubject(username)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + tokenProperties.getRefreshExp()))
                 .signWith(SignatureAlgorithm.HS512, tokenProperties.getSecretKey())

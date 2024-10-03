@@ -26,17 +26,17 @@ public class AuthUseCase {
     private final TokenExtractor tokenExtractor;
 
     public ResponseData<Token> login(LoginReq req){
-        Member member = memberService.getByEmail(req.email());
+        Member member = memberService.getByUsername(req.username());
         verifyPw(req.pw(),member.getPw());
-        Token token = tokenIssuer.issueToken(req.email(), member.getRole());
+        Token token = tokenIssuer.issueToken(req.username(), member.getRole());
         return ResponseData.ok("로그인 성공", token);
     }
 
     public ResponseData<ReissueRes> reissue(ReissueReq req){
         try{
-            String email = tokenExtractor.getSubjectFromRefreshToken(req.refreshToken());
-            Member member = memberService.getByEmail(email);
-            final String accessToken = tokenIssuer.issueAccessToken(email, member.getRole());
+            String username = tokenExtractor.getSubjectFromRefreshToken(req.refreshToken());
+            Member member = memberService.getByUsername(username);
+            final String accessToken = tokenIssuer.issueAccessToken(username, member.getRole());
             return ResponseData.ok("토큰 재발급 성공",new ReissueRes(accessToken));
         }catch(Exception e){
             throw new ReissueTokenException();

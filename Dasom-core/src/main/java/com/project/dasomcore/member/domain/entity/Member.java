@@ -1,5 +1,6 @@
 package com.project.dasomcore.member.domain.entity;
 
+import com.project.dasomcore.member.domain.consts.MemberClass;
 import com.project.dasomcore.member.domain.consts.MemberRole;
 import com.project.dasomcore.member.domain.consts.MemberState;
 import jakarta.persistence.*;
@@ -15,13 +16,16 @@ import org.hibernate.annotations.DynamicUpdate;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Member {
     @Id
+    private String username;
+
     private String email;
 
     private String pw;
 
     private String name;
 
-    private String tel;
+    @Enumerated(EnumType.STRING)
+    private MemberClass classInCharge;
 
     @Enumerated(EnumType.STRING)
     private MemberState state;
@@ -35,4 +39,8 @@ public class Member {
     private Boolean isOnChattingAlarm;
 
     private Boolean isOnNoticeAlarm;
+
+    public void updatePassword(String encodedPassword) {
+        this.pw = encodedPassword;
+    }
 }

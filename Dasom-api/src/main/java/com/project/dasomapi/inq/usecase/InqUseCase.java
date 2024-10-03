@@ -2,8 +2,8 @@ package com.project.dasomapi.inq.usecase;
 
 import com.project.dasomapi.common.Response;
 import com.project.dasomapi.common.ResponseData;
-import com.project.dasomapi.common.request.PageRequest;
-import com.project.dasomapi.inq.handler.req.InqInfoRes;
+import com.project.dasomapi.common.dto.PageRequest;
+import com.project.dasomcore.inq.application.response.InqInfoRes;
 import com.project.dasomapi.inq.handler.req.SaveInqReq;
 import com.project.dasomcore.inq.application.response.InqRes;
 import com.project.dasomcore.inq.application.service.InqRegisterService;
@@ -28,7 +28,8 @@ public class InqUseCase {
     }
 
     public ResponseData<List<InqRes>> inqList(PageRequest req){
-        return ResponseData.ok("문의 리스트 조회 성공",inqSearchService.inqList(req));
+//        return ResponseData.ok("문의 리스트 조회 성공",inqSearchService.inqList(req.page(),req.size()));
+        return null;
     }
 
     public ResponseData<InqInfoRes> inqInfo(Long inqId) {

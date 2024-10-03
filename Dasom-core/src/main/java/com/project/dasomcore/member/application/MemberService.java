@@ -1,5 +1,6 @@
 package com.project.dasomcore.member.application;
 
+import com.project.dasomcore.mail.domain.exception.EmailAlreadyExistsException;
 import com.project.dasomcore.member.domain.entity.Member;
 import com.project.dasomcore.member.repo.MemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -12,8 +13,13 @@ import org.springframework.transaction.annotation.Transactional;
 public class MemberService {
     private final MemberRepository memberRepository;
 
-    public Member getByEmail(String email){
-        return memberRepository.findByEmail(email);
+    public void checkEmailExists(String email) {
+        if(memberRepository.existsById(email))
+            throw new EmailAlreadyExistsException();
+    }
+
+    public Member getByUsername(String username){
+        return memberRepository.findByUsername(username);
     }
 
     public Member save(Member member){

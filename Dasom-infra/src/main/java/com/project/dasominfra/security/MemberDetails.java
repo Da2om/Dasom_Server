@@ -10,7 +10,7 @@ import java.util.Collection;
 public record MemberDetails(Member member) implements UserDetails {
     @Override
     public String getUsername() {
-        return member.getEmail();
+        return member.getUsername();
     }
 
     @Override

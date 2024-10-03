@@ -1,6 +1,7 @@
 package com.project.dasomapi.member.usecase;
 
 import com.project.dasomapi.common.Response;
+import com.project.dasomapi.member.usecase.req.ChangePwReq;
 import com.project.dasomapi.member.usecase.req.JoinReq;
 import com.project.dasomcore.auth.application.PasswordEncoder;
 import com.project.dasomcore.member.application.MemberService;
@@ -20,5 +21,11 @@ public class MemberUseCase {
         Member member = req.toEntity(encoder.encode(req.pw()));
         memberService.save(member);
         return Response.created("회원가입 성공");
+    }
+
+    public Response changePw(ChangePwReq req) {
+        Member member = memberService.getByUsername(req.username());
+        member.updatePassword(encoder.encode(req.password()));
+        return Response.ok("비밀번호 변경 성공");
     }
 }

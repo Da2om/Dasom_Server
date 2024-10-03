@@ -25,7 +25,7 @@ public class ScheduleUseCase {
     }
 
     public ResponseData<List<ScheduleRes>> scheduleList(ScheduleListReq req){
-        return ResponseData.ok("일정 리스트 조회 성공",scheduleSearchService.scheduleList(req));
+        return ResponseData.ok("일정 리스트 조회 성공",scheduleSearchService.scheduleList(req.year(),req.month()));
     }
 
 }

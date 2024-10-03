@@ -1,9 +1,9 @@
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/dasom
+    url: jdbc:mysql://dasom-instance-identifier.cdaqsma2cbkn.ap-northeast-2.rds.amazonaws.com:3306/dasomDatabase
     driver-class-name: com.mysql.cj.jdbc.Driver
-    username: root
-    password: lyi98549854
+    username: dasom_user
+    password: dasom1234!
   jpa:
     hibernate:
       ddl-auto: none
@@ -11,6 +11,24 @@ spring:
     properties:
       hibernate:
         format_sql: true
+  cache:
+    type: redis
+  data:
+    redis:
+      mail:
+        host: localhost # ?? ???? ???? ???? ?? ??
+        port: 6379
+  mail:
+    username: da2om3306@gmail.com
+    password: vbja zhkr amop pwqe
+    host: smtp.gmail.com
+    port: 587
+    properties:
+      mail:
+        debug: true
+        smtp.auth: true
+        smtp.timeout: 50000 # SMTP ??? ??? ???? ??? ???? ?? ??? 50,000ms
+        smtp.starttls.enable: true
 
 jwt:
   refresh-exp: 2592000000
@@ -18,3 +36,12 @@ jwt:
   prefix: Bearer
   header: Authorization
   secret-key: 1MO+JNPjpeqNV/zS1Oz7D2Tirs0zo+PRY4hmpwnUigmlBjLi9Bc7b/KHTlmHyFLuX9s+UkilRMFJinKULR61jQ==
+
+cloud:
+  aws:
+    region:
+      static: ap-northeast-2
+    credentials:
+      access-key: AKIA4MTWJAMOPVRJ3LM3
+      secret-key: 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
+      bucket: da2om-bucket
