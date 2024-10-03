@@ -22,7 +22,7 @@ jobs:
       run: chmod +x ./gradlew
         
     - name: Build with Gradle
-      run: ./gradlew :Daom-api:build -x test --parallel
+      run: ./gradlew :Dasom-api:build -x test --parallel
 
     - name: Docker build & push to prod
       run: |
