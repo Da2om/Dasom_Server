@@ -40,7 +40,12 @@ jobs:
         envs: GITHUB_SHA
         script: |
           docker stop dasom
+          docker stop dasom-redis
           docker rm dasom
+          docker rm dasom-redis
           docker rmi ${{ secrets.DOCKER_USERNAME }}/dasom:latest
           docker pull ${{ secrets.DOCKER_USERNAME }}/dasom:latest
-          docker run -d -p 80:8080 --name dasom ${{ secrets.DOCKER_USERNAME }}/dasom:latest
+          
+          docker run -d --name dasom-redis --network redis-network redis
+          docker run -d -p 80:8080 --name dasom --network redis-network \
+              --env SPRING_REDIS_HOST=dasom-redis --env SPRING_REDIS_PORT=6379 ${{ secrets.DOCKER_USERNAME }}/dasom:latest
