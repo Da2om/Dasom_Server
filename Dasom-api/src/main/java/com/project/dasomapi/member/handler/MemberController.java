@@ -4,10 +4,12 @@ import com.project.dasomapi.common.Response;
 import com.project.dasomapi.member.usecase.MemberUseCase;
 import com.project.dasomapi.member.usecase.req.ChangePwReq;
 import com.project.dasomapi.member.usecase.req.JoinReq;
+import com.project.dasomapi.member.usecase.req.ModifyReq;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,11 +23,17 @@ import org.springframework.web.bind.annotation.RestController;
 public class MemberController {
     private final MemberUseCase memberUseCase;
 
-    // 선생님, 학부모 회원가입 요청을 분리할까??
+    // 선생님, 학부모 회원가입 요청을 분리할까?? -> ㄴㄴ
     @PostMapping("/join")
     @Operation(summary = "회원가입", description = "학부모, 선생님 회원가입 (unauthorized)")
     public Response join(@RequestBody @Valid JoinReq req){
         return memberUseCase.join(req);
+    }
+
+    @PatchMapping("")
+    @Operation(summary = "유저 정보 수정", description = "유저 정보 수정(이메일,이름,아이디) (authenticated)")
+    public Response modify(@RequestBody ModifyReq req){
+        return memberUseCase.modify(req);
     }
 
     @PatchMapping("/change-pw")

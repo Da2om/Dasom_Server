@@ -1,6 +1,7 @@
 package com.project.dasomcore.dosage.repo;
 
 import com.project.dasomcore.dosage.application.response.DosageRes;
+import com.project.dasomcore.dosage.domain.consts.DosagePeriod;
 import com.querydsl.core.types.ConstructorExpression;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -30,14 +31,25 @@ public class QuerydslDosageRepositoryImpl implements QuerydslDosageRepository {
                 .fetch();
     }
 
+    @Override
+    public List<DosageRes> getMyDosages(Long page,Long size,Long childId) {
+        return queryFactory
+                .select(responseProjection())
+                .from(dosage)
+                .where(dosage.child.childId.eq(childId))
+                .offset((page -1)*size)
+                .limit(size)
+                .fetch();
+    }
+
     private ConstructorExpression<DosageRes> responseProjection(){
         return Projections.constructor(DosageRes.class,
+                dosage.dosageId,
                 dosage.medicineName,
-                dosage.dosageTime,
                 dosage.breakfast,
                 dosage.lunch,
                 dosage.dinner,
-                dosage.etc,
+                dosage.description,
                 dosage.child.childId,
                 dosage.child.childName,
                 dosage.child.imageUrl

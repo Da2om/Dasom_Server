@@ -9,6 +9,7 @@ import com.project.dasomcore.dosage.application.response.DosageRes;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -35,6 +36,23 @@ public class DosageController {
             @RequestBody RequestDosageReq req
     ){
         return dosageUseCase.requestDosage(req,id);
+    }
+
+    @GetMapping("/my")
+    @Operation(summary = "내 원아 투약의뢰 조회 성공", description = "내 원아 투약 요청 리스트 반환 (parent)")
+    public ResponseData<List<DosageRes>> getMyDosages(
+            @ModelAttribute PageRequest pageRequest,
+            @RequestParam Long childId
+    ) {
+        return dosageUseCase.getMyDosages(pageRequest,childId);
+    }
+
+    @DeleteMapping("/{id}")
+    @Operation(summary = "투약의뢰 삭제", description = "투약 의뢰 삭제 (parent)")
+    public Response remove(
+            @PathVariable("id") Long id
+    ){
+        return dosageUseCase.remove(id);
     }
 
     @GetMapping("/list")
