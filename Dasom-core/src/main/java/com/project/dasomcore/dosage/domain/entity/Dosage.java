@@ -1,7 +1,10 @@
 package com.project.dasomcore.dosage.domain.entity;
 
 import com.project.dasomcore.child.domain.entity.Child;
+import com.project.dasomcore.dosage.domain.consts.DosagePeriod;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -31,15 +34,16 @@ public class Dosage {
 
     private String medicineName;
 
-    private String dosageTime; // 투약 시기
+    @Enumerated(EnumType.STRING)
+    private DosagePeriod breakfast;
 
-    private String breakfast;
+    @Enumerated(EnumType.STRING)
+    private DosagePeriod lunch;
 
-    private String lunch;
+    @Enumerated(EnumType.STRING)
+    private DosagePeriod dinner;
 
-    private String dinner;
-
-    private String etc;
+    private String description;
 
     private LocalDateTime createdAt;
 

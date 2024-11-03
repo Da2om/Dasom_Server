@@ -17,9 +17,11 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.DynamicUpdate;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Getter
-@Table(name = "tbl_child")
+@Table(name = "tbl_bus")
 @DynamicUpdate
 @Builder
 @AllArgsConstructor
@@ -29,8 +31,23 @@ public class Bus {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long busId;
 
+    private LocalDateTime boardTime;
+
+    private boolean isBoard;
+
+    private LocalDateTime modifiedDt;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "fk_writer_id")
+    private Member member;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "fk_child_id")
     private Child child;
 
+    public void update(LocalDateTime localDateTime, boolean board) {
+        this.boardTime = localDateTime;
+        this.isBoard = board;
+        this.modifiedDt = LocalDateTime.now();
+    }
 }

@@ -32,4 +32,14 @@ public class DosageUseCase {
         List<DosageRes> res = dosageService.getDosages(request.page(),request.size(),year,month,date);
         return ResponseData.ok("투약 의뢰 조회 성공",res);
     }
+
+    public ResponseData<List<DosageRes>> getMyDosages(PageRequest request,Long childId) {
+        List<DosageRes> res = dosageService.getMyDosages(request.page(),request.size(),childId);
+        return ResponseData.ok("내 원아 투약의뢰 조회 성공",res);
+    }
+
+    public Response remove(Long id) {
+        dosageService.deleteById(id);
+        return Response.ok("투약의뢰 삭제 성공");
+    }
 }

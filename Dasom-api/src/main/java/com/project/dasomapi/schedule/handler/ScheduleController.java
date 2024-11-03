@@ -2,8 +2,8 @@ package com.project.dasomapi.schedule.handler;
 
 import com.project.dasomapi.common.Response;
 import com.project.dasomapi.common.ResponseData;
-import com.project.dasomapi.schedule.request.SaveScheduleRequest;
-import com.project.dasomapi.schedule.request.ScheduleListReq;
+import com.project.dasomapi.schedule.usecase.req.RegisterScheduleReq;
+import com.project.dasomapi.schedule.usecase.req.ScheduleListReq;
 import com.project.dasomapi.schedule.usecase.ScheduleUseCase;
 import com.project.dasomcore.schedule.application.response.ScheduleRes;
 import io.swagger.v3.oas.annotations.Operation;
@@ -31,11 +31,11 @@ public class ScheduleController {
      * 일정 작성
      * */
     @PostMapping
-    @Operation(summary = "일정 작성", description = "일정 저장(teacher)")
-    public Response saveSchedule(
-            @RequestBody SaveScheduleRequest req
+    @Operation(summary = "일정 리스트 작성", description = "일정 리스트 저장(teacher)")
+    public Response register(
+            @RequestBody List<RegisterScheduleReq> requests
     ){
-        return useCase.saveSchedule(req);
+        return useCase.register(requests);
     }
 
     /**

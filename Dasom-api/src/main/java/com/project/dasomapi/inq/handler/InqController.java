@@ -40,27 +40,27 @@ public class InqController {
         return useCase.saveInq(req);
     }
 
-    /**
-     * 문의 리스트
-     * */
-    @GetMapping("/list")
-    @Transactional(readOnly = true)
-    @Operation(summary = "문의 리스트 조회", description = "문의 리스트를 조회함. (authorized)")
-    public ResponseData<List<InqRes>> inqList(
-            @ModelAttribute PageRequest req
-    ){
-        return useCase.inqList(req);
-    }
+//    /**
+//     * 문의 리스트
+//     * */
+//    @GetMapping("/list")
+//    @Transactional(readOnly = true)
+//    @Operation(summary = "문의 리스트 조회", description = "문의 리스트를 조회함. (authorized)")
+//    public ResponseData<List<InqRes>> inqList(
+//            @ModelAttribute PageRequest req
+//    ){
+//        return useCase.inqList(req);
+//    }
 
-    /**
-     * 문의 상세
-     * */
-    @GetMapping
-    @Operation(summary = "문의 상세 조회", description = "문의글 상세 정보를 조회함. (authorized)")
-    public ResponseData<InqInfoRes> noticeInfo(
-            @RequestParam Long inqId
-    ){
-        return useCase.inqInfo(inqId);
-    }
+//    /**
+//     * 문의 상세
+//     * */
+//    @GetMapping
+//    @Operation(summary = "문의 상세 조회", description = "문의글 상세 정보를 조회함. (authorized)")
+//    public ResponseData<InqInfoRes> noticeInfo(
+//            @RequestParam Long inqId
+//    ){
+//        return useCase.inqInfo(inqId);
+//    }
 
 }

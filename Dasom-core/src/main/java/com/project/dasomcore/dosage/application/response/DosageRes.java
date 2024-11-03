@@ -1,14 +1,14 @@
 package com.project.dasomcore.dosage.application.response;
 
 public record DosageRes(
+        Long dosageId,
         String medicineName,
-        String dosageTime,
         String breakfast,
         String lunch,
         String dinner,
-        String etc,
+        String description,
         Long childId,
-        String name,
+        String childName,
         String imageUrl
 ) {
 }

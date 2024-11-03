@@ -21,4 +21,12 @@ public class DosageService {
     public List<DosageRes> getDosages(Long page, Long size, String year, String month, String date) {
         return dosageRepository.getDosages(page,size,year,month,date);
     }
+
+    public List<DosageRes> getMyDosages(Long page, Long size,Long childId) {
+        return dosageRepository.getMyDosages(page,size,childId);
+    }
+
+    public void deleteById(Long id) {
+        dosageRepository.deleteById(id);
+    }
 }
