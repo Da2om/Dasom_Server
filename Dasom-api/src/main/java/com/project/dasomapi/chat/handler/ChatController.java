@@ -1,25 +1,35 @@
 package com.project.dasomapi.chat.handler;
 
 import com.project.dasomapi.chat.usecase.ChatMessage;
+import com.project.dasomapi.chat.usecase.ChatUseCase;
+import com.project.dasomcore.chat.domain.entity.Chat;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RestController;
 
-@RestController
+@Controller
 @RequiredArgsConstructor
-@Tag(name = "채팅", description = "채팅 API")
 public class ChatController {
 
-    private final SimpMessageSendingOperations messagingTemplate;
+    private final ChatUseCase chatUseCase;
 
-    @MessageMapping("/sendMessage")  // 클라이언트가 "/app/sendMessage"로 메시지를 보내면 호출됨.
-//    @SendTo("/topic/public")  // 해당 채널을 구독한 클라이언트에게 메시지 전송
-    @Operation(summary = "메시지 전송", description = "메시지 전송")
-    public void sendMessage(ChatMessage message) {
-        messagingTemplate.convertAndSend("/topic/chat/room/" + message.getRoomId(), message);
-        // /topic/chat/room/{roomId} + payload 데이터(message) 를 해당 채널을 구독하 클라이언트에게 메시지 전송
+    @MessageMapping("/{roomId}") //여기로 전송되면 메서드 호출 -> WebSocketConfig prefixes 에서 적용한건 앞에 생략
+    @SendTo("/room/{roomId}")   //구독하고 있는 장소로 메시지 전송 (목적지)  -> WebSocketConfig Broker 에서 적용한건 앞에 붙어줘야됨
+    public ChatMessage chat(@DestinationVariable Long roomId, ChatMessage message) {
+
+        //채팅 저장
+        Chat chat = chatUseCase.createChat(roomId, message.getSender(), message.getSenderEmail(), message.getMessage());
+        return ChatMessage.builder()
+                .roomId(roomId)
+                .sender(chat.getSender())
+                .senderEmail(chat.getSenderEmail())
+                .message(chat.getMessage())
+                .build();
     }
 }
