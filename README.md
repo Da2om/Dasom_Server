@@ -24,6 +24,8 @@ S3 다중 파일 업로드
 
 채팅 구현
 
+참고한 코드 : https://github.com/Jae-Young98/Frientopia-server
+
 (기초) - https://infinitecode.tistory.com/60
 
 (더 자세한거) - https://velog.io/@ygy0102/Spring-Boot-STOMP%EB%A5%BC-%EC%9D%B4%EC%9A%A9%ED%95%9C-%EC%8B%A4%EC%8B%9C%EA%B0%84-%EC%B1%84%ED%8C%85-%EB%B0%8F-%EC%B1%84%ED%8C%85%EB%B0%A9-%EB%8F%99%EC%A0%81-%EC%83%9D%EC%84%B1
